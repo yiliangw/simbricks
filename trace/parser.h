@@ -27,6 +27,7 @@
 #include <cstddef>
 #include <cstring>
 #include <string>
+#include <cstdint>
 
 class parser {
  protected:

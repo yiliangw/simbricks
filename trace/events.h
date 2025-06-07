@@ -25,6 +25,7 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 class log_parser;
 
