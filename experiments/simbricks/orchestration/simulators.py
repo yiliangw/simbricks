@@ -143,9 +143,10 @@ class NICSim(PCIDevSim):
         net.connect_nic(self)
 
     def basic_args(self, env: ExpEnv, extra: tp.Optional[str] = None) -> str:
+        sync_mode = 0 if env.create_cp else self.sync_mode
         cmd = (
             f'{env.dev_pci_path(self)} {env.nic_eth_path(self)}'
-            f' {env.dev_shm_path(self)} {self.sync_mode} {self.start_tick}'
+            f' {env.dev_shm_path(self)} {sync_mode} {self.start_tick}'
             f' {self.sync_period} {self.pci_latency} {self.eth_latency}'
         )
         if self.mac is not None:
@@ -825,7 +826,7 @@ class SwitchNet(NetSim):
         cmd = env.repodir + '/sims/net/switch/net_switch'
         cmd += f' -S {self.sync_period} -E {self.eth_latency}'
 
-        if not self.sync:
+        if not self.sync or env.create_cp:
             cmd += ' -u'
 
         if len(env.pcap_file) > 0:
